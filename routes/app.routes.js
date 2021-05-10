@@ -1,4 +1,5 @@
 module.exports = function (app) {
+  const cases = require('../cases/cases.controllers');
   const collections = require('../collections/collections.controllers');
   const contacts = require('../contacts/contacts.controllers');
   const outcomes = require('../outcomes/outcomes.controllers');
@@ -7,6 +8,9 @@ module.exports = function (app) {
   const users = require('../users/users.controllers');
   //const workspace = require('../workspace/workspace.controllers');
   const workzone = require('../workzone/workzone.controllers');
+
+  // Cases
+  app.route('/api/cases/case').put(cases.update_status);
 
   // Collections
   app.route('/api/collections').get(collections.list_top_five);
