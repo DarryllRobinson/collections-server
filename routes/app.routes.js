@@ -2,6 +2,7 @@ module.exports = function (app) {
   const cases = require('../cases/cases.controllers');
   const collections = require('../collections/collections.controllers');
   const contacts = require('../contacts/contacts.controllers');
+  const emails = require('../emails/emails.controllers');
   const outcomes = require('../outcomes/outcomes.controllers');
   const queues = require('../queues/queues.controllers');
   const reports = require('../reports/reports.controllers');
@@ -24,6 +25,11 @@ module.exports = function (app) {
   // Contacts
   app.route('/api/contacts/:id').get(contacts.list_all);
   app.route('/api/contacts/contact').post(contacts.update_one_contact);
+
+  // Emails
+  app.route('/api/email').post(emails.send_email);
+  app.route('/api/error_email').post(emails.send_error_email);
+  //app.route('/api/error_email').post(emails.send_today_email);
 
   // Outcomes
   app.route('/api/outcomes/:id').get(outcomes.llist_all_outcomes_per_case);
