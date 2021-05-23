@@ -1,4 +1,5 @@
 module.exports = function (app) {
+  const accounts = require('../accounts/accounts.controllers');
   const cases = require('../cases/cases.controllers');
   const collections = require('../collections/collections.controllers');
   const contacts = require('../contacts/contacts.controllers');
@@ -9,6 +10,9 @@ module.exports = function (app) {
   const users = require('../users/users.controllers');
   //const workspace = require('../workspace/workspace.controllers');
   const workzone = require('../workzone/workzone.controllers');
+
+  // Accounts
+  app.route('/api/accounts/account').put(accounts.update_account);
 
   // Cases
   app.route('/api/cases/case').put(cases.update_status);
