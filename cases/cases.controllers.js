@@ -13,3 +13,17 @@ exports.update_status = function (req, res) {
     }
   });
 };
+
+// Insert new Cases records
+exports.insert_cases = function (req, res) {
+  const casesBody = req.body;
+  //console.log('casesBody: ', casesBody);
+
+  CasesModel.insertNewCases(casesBody, function (err, cases) {
+    if (err) {
+      console.log('CasesModel.insertNewCases controller error: ', err);
+    } else {
+      res.send(cases);
+    }
+  });
+};

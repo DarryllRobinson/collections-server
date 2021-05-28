@@ -36,8 +36,8 @@ async function bulkUpdate(table, objectArray, id, callback) {
   // determining which identifier to use based on the table name
   let identifier = '';
   switch (table) {
-    case 'customers':
-      identifier = 'customerRefNo';
+    case 'accounts':
+      identifier = 'accountRefNo';
       break;
     case 'accounts':
       identifier = 'accountNumber';
@@ -57,6 +57,76 @@ async function bulkUpdate(table, objectArray, id, callback) {
   let sqlstatement = `UPDATE ${table} SET ${values} WHERE ${identifier} = "${id}";`;
   console.log('sqlstatement: ', sqlstatement);
   await sql.query(sqlstatement, function (error, results, fields) {
+    if (error) return callback(error);
+    callback(null, results);
+  });
+}
+
+Accounts.insertNewAccounts = async function (accountsBody, result) {
+  try {
+    await bulkInsert(
+      'cws_business.accounts',
+      accountsBody,
+      (error, response) => {
+        if (error) {
+          console.log('insertNewAccounts error: ', error);
+          error.json({
+            error_code: 1,
+            err_desc: error,
+            data: null,
+          });
+        }
+        console.log(`Successful insert of ${response.affectedRows} rows`);
+        result(null, response);
+      }
+    );
+  } catch (e) {
+    console.log('insertNewAccounts problem (e): ', e);
+    return res.json({
+      error_code: 1,
+      err_desc: err,
+      data: null,
+    });
+  }
+};
+
+async function bulkInsert(table, objectArray, callback) {
+  let keys = [];
+  let values = [];
+  // check if objectArray is longer than one element
+  if (objectArray.length > 1) {
+    const numElements = objectArray.length;
+    keys = Object.keys(objectArray[0][0]);
+    //let values = [];
+    for (let i = 0; i < numElements; i++) {
+      let elementValues = objectArray[i].map((obj) =>
+        keys.map((key) => obj[key])
+      );
+      //console.log('elementValues: ', elementValues[0]);
+      values.push(elementValues[0]);
+    }
+    //console.log('values: ', values);
+  } else {
+    keys = Object.keys(objectArray[0]);
+    //console.log('keys: ', keys);
+    values = objectArray.map((obj) => keys.map((key) => obj[key]));
+  }
+
+  // replace 'NULL' with NULL
+  values.map((outside) => {
+    outside.forEach(function (e, i) {
+      if (e === 'NULL') {
+        outside[i] = null;
+      }
+    });
+  });
+
+  let sqlstatement =
+    'INSERT INTO ' + table + ' (' + keys.join(', ') + ') VALUES ? ';
+  //console.log('[values]: ', values);
+  //console.log('sqlstatement: ', sqlstatement);
+  await sql.query(sqlstatement, [values], function (error, results, fields) {
+    console.log('results: ', results);
     if (error) return callback(error);
     callback(null, results);
   });

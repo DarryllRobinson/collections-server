@@ -28,3 +28,17 @@ exports.insert_outcome = function (req, res) {
     }
   });
 };
+
+// Insert new Outcomes record
+exports.insert_outcomes = function (req, res) {
+  const outcomesBody = req.body;
+  //console.log('outcomesBody: ', outcomesBody);
+
+  OutcomesModel.insertNewOutcomes(outcomesBody, function (err, outcomes) {
+    if (err) {
+      console.log('OutcomesModel.insertNewOutcomes controller error: ', err);
+    } else {
+      res.send(outcomes);
+    }
+  });
+};

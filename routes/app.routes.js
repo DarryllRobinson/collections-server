@@ -16,9 +16,11 @@ module.exports = function (app) {
   app
     .route('/api/accounts/account/:accountNumber')
     .put(accounts.update_account);
+  app.route('/api/accounts/account').post(accounts.insert_accounts);
 
   // Cases
   app.route('/api/cases/case/:caseId').put(cases.update_status);
+  app.route('/api/cases/case').post(cases.insert_cases);
 
   // Collections
   app.route('/api/collections').get(collections.list_top_five);
@@ -31,7 +33,8 @@ module.exports = function (app) {
 
   // Contacts
   app.route('/api/contacts/:id').get(contacts.list_all);
-  app.route('/api/contacts/contact').post(contacts.update_one_contact);
+  app.route('/api/contacts/contact/:id').post(contacts.update_one_contact);
+  app.route('/api/contacts/contact').post(contacts.insert_contacts);
 
   // Customers
   app.route('/api/customers/customer').post(customers.insert_customers);
@@ -43,7 +46,8 @@ module.exports = function (app) {
 
   // Outcomes
   app.route('/api/outcomes/:id').get(outcomes.list_all_outcomes_per_case);
-  app.route('/api/outcomes/outcome').post(outcomes.insert_outcome);
+  app.route('/api/outcomes/outcome/:id').post(outcomes.insert_outcome);
+  app.route('/api/outcomes/outcome').post(outcomes.insert_outcomes);
 
   // Queues
   app.route('/api/queues').get(queues.listAll);
