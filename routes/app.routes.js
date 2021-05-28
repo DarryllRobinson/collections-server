@@ -3,6 +3,7 @@ module.exports = function (app) {
   const cases = require('../cases/cases.controllers');
   const collections = require('../collections/collections.controllers');
   const contacts = require('../contacts/contacts.controllers');
+  const customers = require('../customers/customers.controllers');
   const emails = require('../emails/emails.controllers');
   const outcomes = require('../outcomes/outcomes.controllers');
   const queues = require('../queues/queues.controllers');
@@ -12,10 +13,12 @@ module.exports = function (app) {
   const workzone = require('../workzone/workzone.controllers');
 
   // Accounts
-  app.route('/api/accounts/account').put(accounts.update_account);
+  app
+    .route('/api/accounts/account/:accountNumber')
+    .put(accounts.update_account);
 
   // Cases
-  app.route('/api/cases/case').put(cases.update_status);
+  app.route('/api/cases/case/:caseId').put(cases.update_status);
 
   // Collections
   app.route('/api/collections').get(collections.list_top_five);
@@ -30,13 +33,17 @@ module.exports = function (app) {
   app.route('/api/contacts/:id').get(contacts.list_all);
   app.route('/api/contacts/contact').post(contacts.update_one_contact);
 
+  // Customers
+  app.route('/api/customers/customer').post(customers.insert_customers);
+
   // Emails
   app.route('/api/email').post(emails.send_email);
   app.route('/api/error_email').post(emails.send_error_email);
   //app.route('/api/error_email').post(emails.send_today_email);
 
   // Outcomes
-  app.route('/api/outcomes/:id').get(outcomes.llist_all_outcomes_per_case);
+  app.route('/api/outcomes/:id').get(outcomes.list_all_outcomes_per_case);
+  app.route('/api/outcomes/outcome').post(outcomes.insert_outcome);
 
   // Queues
   app.route('/api/queues').get(queues.listAll);

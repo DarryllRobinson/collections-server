@@ -22,4 +22,18 @@ Outcomes.getAllOutcomesForCase = function (caseId, result) {
   );
 };
 
+Outcomes.insertNewOutcome = function (outcomeBody, result) {
+  sql.query(`INSERT INTO cws_business.outcomes SET ?;`, outcomeBody, function (
+    err,
+    res
+  ) {
+    if (err) {
+      console.log('insertNewOutcome error: ', err);
+    } else {
+      res.status = 'Ok';
+      result(null, res);
+    }
+  });
+};
+
 module.exports = Outcomes;

@@ -2,12 +2,10 @@ const CasesModel = require('./cases.models');
 
 // Update just the currentStatus
 exports.update_status = function (req, res) {
-  const { id, currentStatus, lockedDateTime } = req.body;
+  const caseUpdate = req.body;
+  const { caseId } = req.params;
 
-  CasesModel.updateStatus(currentStatus, lockedDateTime, id, function (
-    err,
-    cases
-  ) {
+  CasesModel.updateStatus(caseId, caseUpdate, function (err, cases) {
     if (err) {
       console.log('CasesModel.updateStatus controller error: ', err);
     } else {
