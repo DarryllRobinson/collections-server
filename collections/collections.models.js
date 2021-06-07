@@ -5,7 +5,7 @@ const Collections = function (collections) {
   this.createdDate = new Date();
 };
 
-Collections.getTopFiveRecords = function (result) {
+Collections.oldgetAllRecords = function (result) {
   sql.query(
     `SELECT caseId as id, caseNumber, amountDue, accountNumber, caseNotes, currentAssignment, currentBalance, customerName, debtorAge, nextVisitDateTime, regIdNumber, resolution, totalBalance, cases.updatedBy, cases.updatedDate
     FROM cws_business.customers, cws_business.accounts, cws_business.cases
@@ -14,6 +14,23 @@ Collections.getTopFiveRecords = function (result) {
     function (err, res) {
       if (err) {
         console.log('getTopFiveRecords error: ', err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
+Collections.getAllCollections = function (result) {
+  sql.query(
+    `SELECT caseId as id, caseNumber, amountDue, accountNotes, accountNumber, accountStatus, caseNotes, creditLimit, currentAssignment, currentBalance, currentStatus, customerEntity, customerName, days30, days60, days90, days120, days150, days180, days180Over, debtorAge, debitOrderDate, kamNotes, lastPaymentAmount, lastPaymentDate, lastPTPAmount, lastPTPDate, nextVisitDateTime, paymentDueDate, pendReason, regIdNumber, regIdStatus, resolution, representativeName, representativeNumber, totalBalance, cases.updatedBy, cases.updatedDate
+    FROM cws_business.customers, cws_business.accounts, cws_business.cases, cws_business.contacts
+    WHERE customers.customerRefNo = accounts.f_customerId
+    AND accounts.accountNumber = cases.f_accountNumber
+    AND contacts.f_accountNumber = accounts.accountNumber`,
+    function (err, res) {
+      if (err) {
+        console.log('getAllCollections error: ', err);
       } else {
         result(null, res);
       }

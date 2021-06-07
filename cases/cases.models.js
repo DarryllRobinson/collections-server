@@ -11,7 +11,7 @@ Cases.updateStatus = async function (caseId, caseUpdate, result) {
   let arr = [];
   arr.push(caseUpdate);
 
-  await bulkUpdate('cws_business.cases', arr, caseId, function (err, res) {
+  await bulkUpdate('cases', arr, caseId, function (err, res) {
     if (err) {
       console.error('bulkUpdate error for Cases.updateStatus error: ', err);
     } else {
@@ -45,7 +45,7 @@ async function bulkUpdate(table, objectArray, id, callback) {
     case 'cases':
       identifier = 'f_accountNumber';
       break;
-    case 'cws_business.cases':
+    case 'cases':
       identifier = 'caseId';
       break;
     default:
@@ -54,7 +54,7 @@ async function bulkUpdate(table, objectArray, id, callback) {
   }
 
   // UPDATE {table} SET colname = ?, ...    WHERE id = ?;
-  let sqlstatement = `UPDATE ${table} SET ${values} WHERE ${identifier} = "${id}";`;
+  let sqlstatement = `UPDATE cws_business.${table} SET ${values} WHERE ${identifier} = "${id}";`;
   console.log('sqlstatement: ', sqlstatement);
   await sql.query(sqlstatement, function (error, results, fields) {
     if (error) return callback(error);
@@ -64,7 +64,7 @@ async function bulkUpdate(table, objectArray, id, callback) {
 
 Cases.insertNewCases = async function (casesBody, result) {
   try {
-    await bulkInsert('cws_business.cases', casesBody, (error, response) => {
+    await bulkInsert('cases', casesBody, (error, response) => {
       if (error) {
         console.log('insertNewCases error: ', error);
         error.json({
@@ -118,7 +118,11 @@ async function bulkInsert(table, objectArray, callback) {
   });
 
   let sqlstatement =
-    'INSERT INTO ' + table + ' (' + keys.join(', ') + ') VALUES ? ';
+    'INSERT INTO cws_business.' +
+    table +
+    ' (' +
+    keys.join(', ') +
+    ') VALUES ? ';
   //console.log('[values]: ', values);
   //console.log('sqlstatement: ', sqlstatement);
   await sql.query(sqlstatement, [values], function (error, results, fields) {

@@ -11,7 +11,7 @@ Contacts.getContacts = function (id, result) {
   sql.query(
     `SELECT *
     FROM cws_business.contacts
-    WHERE f_contactNumber = ?;`,
+    WHERE f_accountNumber = ?;`,
     id,
     function (err, res) {
       if (err) {
@@ -142,11 +142,11 @@ async function bulkUpdate(objectArray, id, callback) {
     case 'customers':
       identifier = 'customerRefNo';
       break;
-    case 'contacts':
-      identifier = 'contactNumber';
+    case 'accounts':
+      identifier = 'accountNumber';
       break;
     case 'contacts':
-      identifier = 'f_contactNumber';
+      identifier = 'f_accountNumber';
       break;
     case 'cases':
       identifier = 'caseId';

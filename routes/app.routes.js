@@ -23,7 +23,7 @@ module.exports = function (app) {
   app.route('/api/cases/case').post(cases.insert_cases);
 
   // Collections
-  app.route('/api/collections').get(collections.list_top_five);
+  app.route('/api/collections').get(collections.list_all);
   app
     .route('/api/collection/:collection_id')
     .get(collections.getOneCollectionRecord);

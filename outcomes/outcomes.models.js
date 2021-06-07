@@ -5,16 +5,16 @@ const Outcomes = function (outcomes) {
   this.createdDate = new Date();
 };
 
-Outcomes.getAllOutcomesForOutcome = function (outcomeId, result) {
+Outcomes.getAllOutcomesForCase = function (caseId, result) {
   //console.log('outcomeId', outcomeId);
   sql.query(
     `SELECT *
     FROM cws_business.outcomes
-    WHERE f_outcomeId = ?`,
-    outcomeId,
+    WHERE f_caseId = ?`,
+    caseId,
     function (err, res) {
       if (err) {
-        console.log('getAllOutcomesForOutcome error: ', err);
+        console.log('getAllOutcomesForCase error: ', err);
       } else {
         result(null, res);
       }
@@ -23,10 +23,7 @@ Outcomes.getAllOutcomesForOutcome = function (outcomeId, result) {
 };
 
 Outcomes.insertNewOutcome = function (outcomeBody, result) {
-  sql.query(`INSERT INTO cws_business.outcomes SET ?;`, outcomeBody, function (
-    err,
-    res
-  ) {
+  sql.query(`INSERT INTO outcomes SET ?;`, outcomeBody, function (err, res) {
     if (err) {
       console.log('insertNewOutcome error: ', err);
     } else {
@@ -38,22 +35,18 @@ Outcomes.insertNewOutcome = function (outcomeBody, result) {
 
 Outcomes.insertNewOutcomes = async function (outcomesBody, result) {
   try {
-    await bulkInsert(
-      'cws_business.outcomes',
-      outcomesBody,
-      (error, response) => {
-        if (error) {
-          console.log('insertNewOutcomes error: ', error);
-          error.json({
-            error_code: 1,
-            err_desc: error,
-            data: null,
-          });
-        }
-        console.log(`Successful insert of ${response.affectedRows} rows`);
-        result(null, response);
+    await bulkInsert('outcomes', outcomesBody, (error, response) => {
+      if (error) {
+        console.log('insertNewOutcomes error: ', error);
+        error.json({
+          error_code: 1,
+          err_desc: error,
+          data: null,
+        });
       }
-    );
+      console.log(`Successful insert of ${response.affectedRows} rows`);
+      result(null, response);
+    });
   } catch (e) {
     console.log('insertNewOutcomes problem (e): ', e);
     return res.json({
@@ -96,7 +89,11 @@ async function bulkInsert(table, objectArray, callback) {
   });
 
   let sqlstatement =
-    'INSERT INTO ' + table + ' (' + keys.join(', ') + ') VALUES ? ';
+    'INSERT INTO cws_business.' +
+    table +
+    ' (' +
+    keys.join(', ') +
+    ') VALUES ? ';
   //console.log('[values]: ', values);
   //console.log('sqlstatement: ', sqlstatement);
   await sql.query(sqlstatement, [values], function (error, results, fields) {

@@ -1,10 +1,10 @@
 const CollectionsModel = require('./collections.models');
 
-// List top five collections records
-exports.list_top_five = function (req, res) {
-  CollectionsModel.getTopFiveRecords(function (err, collections) {
+// List all collections records
+exports.list_all = function (req, res) {
+  CollectionsModel.getAllCollections(function (err, collections) {
     if (err) {
-      console.log('CollectionsModel.getTopFiveRecords controller error: ', err);
+      console.log('CollectionsModel.getAllCollections controller error: ', err);
     } else {
       res.send(collections);
     }
