@@ -49,3 +49,27 @@ exports.getOne = function (req, res) {
     }
   });
 };
+
+// deactivate a user
+exports.deactivate_user = function (req, res) {
+  console.log('deactivate_user req.params: ', req.params);
+  UserModel.deactivateUser(req.params, function (err, user) {
+    if (err) {
+      console.log('deactivateUser controller error: ', err);
+    } else {
+      res.send(user);
+    }
+  });
+};
+
+// reactivate a user
+exports.reactivate_user = function (req, res) {
+  console.log('reactivate_user req.params: ', req.params);
+  UserModel.reactivateUser(req.params, function (err, user) {
+    if (err) {
+      console.log('reactivateUser controller error: ', err);
+    } else {
+      res.send(user);
+    }
+  });
+};

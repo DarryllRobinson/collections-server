@@ -33,7 +33,7 @@ module.exports = function (app) {
 
   // Contacts
   app.route('/api/contacts/:id').get(contacts.list_all);
-  app.route('/api/contacts/contact/:id').post(contacts.update_one_contact);
+  app.route('/api/contacts/contact/:id').put(contacts.update_one_contact);
   app.route('/api/contacts/contact').post(contacts.insert_contacts);
 
   // Customers
@@ -60,6 +60,8 @@ module.exports = function (app) {
   app.route('/api/users').get(users.listAll);
   app.route('/api/users/:userId').get(users.getOne);
   app.route('/api/users/refresh').post(users.refreshToken);
+  app.route('/api/users/deactivate/:userId').put(users.deactivate_user);
+  app.route('/api/users/reactivate/:userId').put(users.reactivate_user);
 
   // Workzone
   app.route('/api/workzone').get(workzone.list_top_five);

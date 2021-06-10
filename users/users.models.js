@@ -178,4 +178,38 @@ User.getOneUser = function (userId, result) {
   );
 };
 
+// Deactivate
+User.deactivateUser = function (userId, result) {
+  console.log('deactivateUser userId: ', userId);
+  sql.query(
+    `UPDATE users SET active = 0 WHERE id = ?;`,
+    userId.userId,
+    function (err, res) {
+      if (err) {
+        console.log('deactivateUser error: ', err);
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
+// Reactivate
+User.reactivateUser = function (userId, result) {
+  console.log('reactivateUser userId: ', userId);
+  sql.query(
+    `UPDATE users SET active = 1 WHERE id = ?;`,
+    userId.userId,
+    function (err, res) {
+      if (err) {
+        console.log('reactivateUser error: ', err);
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
 module.exports = User;

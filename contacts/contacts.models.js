@@ -24,7 +24,7 @@ Contacts.getContacts = function (id, result) {
 };
 
 Contacts.updateContact = async function (id, contact, result) {
-  //console.log('updateContact contact: ', contact);
+  console.log('updateContact contact: ', contact);
   const {
     primaryContactName,
     primaryContactNumber,
@@ -64,54 +64,55 @@ Contacts.updateContact = async function (id, contact, result) {
 
   let existingContact = {}; // = contact;
   if (contact) {
-    if (primaryContactName !== '')
+    if (primaryContactName)
       existingContact.primaryContactName = primaryContactName;
-    if (primaryContactNumber !== '')
+    if (primaryContactNumber)
       existingContact.primaryContactNumber = primaryContactNumber;
-    if (primaryContactEmail !== '')
+    if (primaryContactEmail)
       existingContact.primaryContactEmail = primaryContactEmail;
-    if (representativeName !== '')
+    if (representativeName)
       existingContact.representativeName = representativeName;
-    if (representativeNumber !== '')
+    if (representativeNumber)
       existingContact.representativeNumber = representativeNumber;
-    if (representativeEmail !== '')
+    if (representativeEmail)
       existingContact.representativeEmail = representativeEmail;
-    if (alternativeRepName !== '')
+    if (alternativeRepName)
       existingContact.alternativeRepName = alternativeRepName;
-    if (alternativeRepNumber !== '')
+    if (alternativeRepNumber)
       existingContact.alternativeRepNumber = alternativeRepNumber;
-    if (alternativeRepEmail !== '')
+    if (alternativeRepEmail)
       existingContact.alternativeRepEmail = alternativeRepEmail;
-    if (otherNumber1 !== '') existingContact.otherNumber1 = otherNumber1;
-    if (otherNumber2 !== '') existingContact.otherNumber2 = otherNumber2;
-    if (otherNumber3 !== '') existingContact.otherNumber3 = otherNumber3;
-    if (otherNumber4 !== '') existingContact.otherNumber4 = otherNumber4;
-    if (otherNumber5 !== '') existingContact.otherNumber5 = otherNumber5;
-    if (otherNumber6 !== '') existingContact.otherNumber6 = otherNumber6;
-    if (otherNumber7 !== '') existingContact.otherNumber7 = otherNumber7;
-    if (otherNumber8 !== '') existingContact.otherNumber8 = otherNumber8;
-    if (otherNumber9 !== '') existingContact.otherNumber9 = otherNumber9;
-    if (otherNumber10 !== '') existingContact.otherNumber10 = otherNumber10;
-    if (otherEmail1 !== '') existingContact.otherEmail1 = otherEmail1;
-    if (otherEmail2 !== '') existingContact.otherEmail2 = otherEmail2;
-    if (otherEmail3 !== '') existingContact.otherEmail3 = otherEmail3;
-    if (otherEmail4 !== '') existingContact.otherEmail4 = otherEmail4;
-    if (otherEmail5 !== '') existingContact.otherEmail5 = otherEmail5;
-    if (otherEmail6 !== '') existingContact.otherEmail6 = otherEmail6;
-    if (otherEmail7 !== '') existingContact.otherEmail7 = otherEmail7;
-    if (otherEmail8 !== '') existingContact.otherEmail8 = otherEmail8;
-    if (otherEmail9 !== '') existingContact.otherEmail9 = otherEmail9;
-    if (otherEmail10 !== '') existingContact.otherEmail10 = otherEmail10;
-    if (dnc2 !== '') existingContact.dnc2 = dnc1;
-    if (dnc2 !== '') existingContact.dnc2 = dnc2;
-    if (dnc3 !== '') existingContact.dnc3 = dnc3;
-    if (dnc4 !== '') existingContact.dnc4 = dnc4;
-    if (dnc5 !== '') existingContact.dnc5 = dnc5;
+    if (otherNumber1) existingContact.otherNumber1 = otherNumber1;
+    if (otherNumber2) existingContact.otherNumber2 = otherNumber2;
+    if (otherNumber3) existingContact.otherNumber3 = otherNumber3;
+    if (otherNumber4) existingContact.otherNumber4 = otherNumber4;
+    if (otherNumber5) existingContact.otherNumber5 = otherNumber5;
+    if (otherNumber6) existingContact.otherNumber6 = otherNumber6;
+    if (otherNumber7) existingContact.otherNumber7 = otherNumber7;
+    if (otherNumber8) existingContact.otherNumber8 = otherNumber8;
+    if (otherNumber9) existingContact.otherNumber9 = otherNumber9;
+    if (otherNumber10) existingContact.otherNumber10 = otherNumber10;
+    if (otherEmail1) existingContact.otherEmail1 = otherEmail1;
+    if (otherEmail2) existingContact.otherEmail2 = otherEmail2;
+    if (otherEmail3) existingContact.otherEmail3 = otherEmail3;
+    if (otherEmail4) existingContact.otherEmail4 = otherEmail4;
+    if (otherEmail5) existingContact.otherEmail5 = otherEmail5;
+    if (otherEmail6) existingContact.otherEmail6 = otherEmail6;
+    if (otherEmail7) existingContact.otherEmail7 = otherEmail7;
+    if (otherEmail8) existingContact.otherEmail8 = otherEmail8;
+    if (otherEmail9) existingContact.otherEmail9 = otherEmail9;
+    if (otherEmail10) existingContact.otherEmail10 = otherEmail10;
+    if (dnc2) existingContact.dnc2 = dnc1;
+    if (dnc2) existingContact.dnc2 = dnc2;
+    if (dnc3) existingContact.dnc3 = dnc3;
+    if (dnc4) existingContact.dnc4 = dnc4;
+    if (dnc5) existingContact.dnc5 = dnc5;
   }
 
   // Bulk update
   let arr = [];
-  arr.push(contact);
+  arr.push(existingContact);
+  console.log('arr', arr);
 
   await bulkUpdate('contacts', arr, id, function (err, res) {
     if (err) {
@@ -123,7 +124,7 @@ Contacts.updateContact = async function (id, contact, result) {
   });
 };
 
-async function bulkUpdate(objectArray, id, callback) {
+async function bulkUpdate(table, objectArray, id, callback) {
   let keys = Object.keys(objectArray[0]);
   let values = [];
   objectArray.map((obj) =>
@@ -157,7 +158,7 @@ async function bulkUpdate(objectArray, id, callback) {
   }
 
   // UPDATE {table} SET colname = ?, ...    WHERE id = ?;
-  let sqlstatement = `UPDATE ${table} SET ${values} WHERE ${identifier} = "${id}";`;
+  let sqlstatement = `UPDATE cws_business.${table} SET ${values} WHERE ${identifier} = "${id}";`;
   console.log('sqlstatement: ', sqlstatement);
   await sql.query(sqlstatement, function (error, results, fields) {
     if (error) return callback(error);
