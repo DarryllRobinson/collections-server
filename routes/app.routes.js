@@ -1,6 +1,7 @@
 module.exports = function (app) {
   const accounts = require('../accounts/accounts.controllers');
   const cases = require('../cases/cases.controllers');
+  const clients = require('../clients/clients.controllers');
   const collections = require('../collections/collections.controllers');
   const contacts = require('../contacts/contacts.controllers');
   const customers = require('../customers/customers.controllers');
@@ -21,6 +22,10 @@ module.exports = function (app) {
   // Cases
   app.route('/api/cases/case/:caseId').put(cases.update_status);
   app.route('/api/cases/case').post(cases.insert_cases);
+
+  // Clients
+  app.route('/api/clients').get(clients.list_all);
+  app.route('/api/clients/client').post(clients.create_client);
 
   // Collections
   app.route('/api/collections').get(collections.list_all);
