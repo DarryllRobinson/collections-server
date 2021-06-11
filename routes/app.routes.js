@@ -62,6 +62,7 @@ module.exports = function (app) {
   app.route('/api/users/refresh').post(users.refreshToken);
   app.route('/api/users/deactivate/:userId').put(users.deactivate_user);
   app.route('/api/users/reactivate/:userId').put(users.reactivate_user);
+  app.route('/api/users/user').post(users.create_user);
 
   // Workzone
   app.route('/api/workzone').get(workzone.list_top_five);

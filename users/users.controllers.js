@@ -73,3 +73,21 @@ exports.reactivate_user = function (req, res) {
     }
   });
 };
+
+// Create a user
+exports.create_user = function (req, res) {
+  //console.log('req.body.email: ', req.body.email);
+  // Check if user email address already exists
+  UserModel.createUser(req.body, function (err, user) {
+    if (err) {
+      console.log('createUser controller error: ', err);
+    } else {
+      //console.log('model createUser: ', user);
+      if (user === 'User exists') {
+        res.send('User exists');
+      } else {
+        res.send(user);
+      }
+    }
+  });
+};
