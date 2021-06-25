@@ -2,7 +2,7 @@ const Client = require('./clients.models');
 
 // List all clients
 exports.list_all = function (req, res) {
-  Client.getAll(function (err, clients) {
+  Client.getAllClients(function (err, clients) {
     if (err) {
       console.log('Client.getAll controller error: ', err);
     } else {
@@ -18,6 +18,30 @@ exports.create_client = function (req, res) {
   Client.addClient(req.body, function (err, client) {
     if (err) {
       console.log('addClient controller error: ', err);
+    } else {
+      res.send(client);
+    }
+  });
+};
+
+// deactivate a client
+exports.deactivate_client = function (req, res) {
+  console.log('deactivate_client req.params: ', req.params);
+  Client.deactivateClient(req.params, function (err, client) {
+    if (err) {
+      console.log('deactivateClient controller error: ', err);
+    } else {
+      res.send(client);
+    }
+  });
+};
+
+// reactivate a client
+exports.reactivate_client = function (req, res) {
+  console.log('reactivate_client req.params: ', req.params);
+  Client.reactivateClient(req.params, function (err, client) {
+    if (err) {
+      console.log('reactivateClient controller error: ', err);
     } else {
       res.send(client);
     }

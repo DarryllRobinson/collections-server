@@ -44,14 +44,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //static folder
 app.use(express.static(__dirname + '/public'));
+console.log('__dirname:', __dirname);
 
 app.use(cors());
 //app.use(jwt());
 // global error handler
 app.use(errorHandler);
 
-// Logging
-morgan.token('user', function getUser(req) {
+// Logging - turned off for now
+/*morgan.token('user', function getUser(req) {
   return req.header('User');
 });
 
@@ -65,7 +66,7 @@ morgan.token('body', function getBody(req) {
 
 app.use(
   morgan('[:date[iso]] :ip :user :method :url :status :body :response-time ms')
-);
+);*/
 
 // Listen for incoming traffic
 app.listen(port);

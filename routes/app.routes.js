@@ -9,6 +9,7 @@ module.exports = function (app) {
   const outcomes = require('../outcomes/outcomes.controllers');
   const queues = require('../queues/queues.controllers');
   const reports = require('../reports/reports.controllers');
+  const uploads = require('../uploads/uploads');
   const users = require('../users/users.controllers');
   //const workspace = require('../workspace/workspace.controllers');
   const workzone = require('../workzone/workzone.controllers');
@@ -26,6 +27,8 @@ module.exports = function (app) {
   // Clients
   app.route('/api/clients').get(clients.list_all);
   app.route('/api/clients/client').post(clients.create_client);
+  app.route('/api/clients/deactivate/:clientId').put(clients.deactivate_client);
+  app.route('/api/clients/reactivate/:clientId').put(clients.reactivate_client);
 
   // Collections
   app.route('/api/collections').get(collections.list_all);
@@ -59,6 +62,9 @@ module.exports = function (app) {
 
   // Reports
   app.route('/api/reports/:report').get(reports.getOneReport);
+
+  // Uploads
+  app.route('/api/uploads').post(uploads.upload_file);
 
   // Users
   app.route('/api/users/login').post(users.loginUser);
