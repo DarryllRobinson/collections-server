@@ -13,13 +13,14 @@ exports.list_all = function (req, res) {
 
 // Add a client
 exports.create_client = function (req, res) {
-  console.log('create_client req.body: ', req.body);
+  //console.log('create_client req.body: ', req.body);
   //const clientId =
   Client.addClient(req.body, function (err, client) {
     if (err) {
       console.log('addClient controller error: ', err);
     } else {
-      res.send(client);
+      //console.log('addClient controller: ', client);
+      res.send('success');
     }
   });
 };

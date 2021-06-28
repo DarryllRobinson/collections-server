@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //static folder
 app.use(express.static(__dirname + '/public'));
-console.log('__dirname:', __dirname);
+//console.log('__dirname:', __dirname);
 
 app.use(cors());
 //app.use(jwt());
