@@ -2,7 +2,15 @@ const multer = require('multer');
 
 // File upload
 exports.upload_file = function (req, res) {
-  console.log('multering');
+  // Checking if directory exists - will use when I can
+  // figure out how to access the name I'm sending!!
+  /*const fs = require('fs');
+  const dir = './tmp';
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }*/
+
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'public/uploads');
@@ -15,7 +23,6 @@ exports.upload_file = function (req, res) {
   const upload = multer({ storage: storage }).single('file');
 
   upload(req, res, function (err) {
-    console.log('multer upload');
     if (err) {
       res.json(err);
       return;
