@@ -31,8 +31,9 @@ exports.upload_file = function (req, res) {
     if (!req.file) {
       res.json('No file to upload');
     }
-    return res.status(200).send(req.file);
 
-    console.log('no problem');
+    const logoLocation = req.file.path;
+    console.log('logoLocation: ' + logoLocation);
+    return res.status(200).send(req.file);
   });
 };
