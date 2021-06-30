@@ -43,7 +43,7 @@ Client.addClient = async function (client, result) {
 
 Client.createAccountsTable = function (tablePrefix, result) {
   console.log('createAccountsTable tablePrefix: ', tablePrefix);
-  tableName = tablePrefix + '_accounts';
+  const tableName = tablePrefix + '_accounts';
   console.log('Creating new table ' + tableName);
 
   sql.query(

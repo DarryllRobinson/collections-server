@@ -28,70 +28,75 @@ exports.create_client = function (req, res) {
 // Create tables for new clients
 // Accounts
 exports.create_accounts_table = function (req, res) {
-  console.log('create_accounts_table req.params: ', req.params);
   console.log('create_accounts_table req.body: ', req.body);
+  const tablePrefix = req.body.name.substring(0, 10);
+  console.log('tablePrefix: ', tablePrefix);
 
-  Client.createAccountsTable(req.body, function (err, table) {
+  Client.createAccountsTable(tablePrefix, function (err, table) {
     if (err) {
       console.log('create_accounts_table err: ', err);
     } else {
-      result(null, res);
+      res.send(table);
     }
   });
 };
 
 // Cases
 exports.create_cases_table = function (req, res) {
-  console.log('create_cases_table req.params: ', req.params);
   console.log('create_cases_table req.body: ', req.body);
+  const tablePrefix = req.body.name.substring(0, 10);
+  console.log('tablePrefix: ', tablePrefix);
 
-  Client.createCasesTable(req.body, function (err, table) {
+  Client.createCasesTable(tablePrefix, function (err, table) {
     if (err) {
       console.log('create_cases_table err: ', err);
     } else {
-      result(null, res);
+      res.send(table);
     }
   });
 };
 
 // Contacts
 exports.create_contacts_table = function (req, res) {
-  console.log('create_contacts_table req.params: ', req.params);
   console.log('create_contacts_table req.body: ', req.body);
+  const tablePrefix = req.body.name.substring(0, 10);
+  console.log('tablePrefix: ', tablePrefix);
 
-  Client.createContactsTable(req.body, function (err, table) {
+  Client.createContactsTable(tablePrefix, function (err, table) {
     if (err) {
       console.log('create_contacts_table err: ', err);
     } else {
-      result(null, res);
+      res.send(table);
     }
   });
 };
 
 // Customers
 exports.create_customers_table = function (req, res) {
-  console.log('create_customers_table req.params: ', req.params);
   console.log('create_customers_table req.body: ', req.body);
+  const tablePrefix = req.body.name.substring(0, 10);
+  console.log('tablePrefix: ', tablePrefix);
 
-  Client.createCustomersTable(req.body, function (err, table) {
+  Client.createCustomersTable(tablePrefix, function (err, table) {
     if (err) {
       console.log('create_customers_table err: ', err);
     } else {
-      result(null, res);
+      res.send(table);
     }
   });
 };
 
 // Outcomes
 exports.create_outcomes_table = function (req, res) {
-  console.log('create_outcomes_table req.params: ', req.params);
   console.log('create_outcomes_table req.body: ', req.body);
+  const tablePrefix = req.body.name.substring(0, 10);
+  console.log('tablePrefix: ', tablePrefix);
 
-  Client.createOutcomesTable(req.body, function (err, table) {
+  Client.createOutcomesTable(tablePrefix, function (err, table) {
     if (err) {
       console.log('create_outcomes_table err: ', err);
     } else {
-      result(null, res);
+      res.send(table);
     }
   });
 };

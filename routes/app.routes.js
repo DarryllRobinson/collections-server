@@ -30,7 +30,7 @@ module.exports = function (app) {
 
   // Tables for new clients
   app.route('/api/clients/client/accounts').post(clients.create_accounts_table);
-  app.route('/api/clients/client/cases').post(clients.create_accounts_table);
+  app.route('/api/clients/client/cases').post(clients.create_cases_table);
   app.route('/api/clients/client/contacts').post(clients.create_contacts_table);
   app
     .route('/api/clients/client/customers')
