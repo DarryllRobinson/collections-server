@@ -28,6 +28,9 @@ module.exports = function (app) {
   app.route('/api/clients').get(clients.list_all);
   app.route('/api/clients/client').post(clients.create_client);
 
+  // Check name
+  app.route('/api/clients/clientCheck').post(clients.check_name);
+
   // Tables for new clients
   app.route('/api/clients/client/accounts').post(clients.create_accounts_table);
   app.route('/api/clients/client/cases').post(clients.create_cases_table);
@@ -36,6 +39,9 @@ module.exports = function (app) {
     .route('/api/clients/client/customers')
     .post(clients.create_customers_table);
   app.route('/api/clients/client/outcomes').post(clients.create_outcomes_table);
+
+  // Config
+  app.route('/api/clients/client/config').post(clients.create_config);
 
   app.route('/api/clients/deactivate/:clientId').put(clients.deactivate_client);
   app.route('/api/clients/reactivate/:clientId').put(clients.reactivate_client);

@@ -13,14 +13,27 @@ exports.list_all = function (req, res) {
 
 // Add a client
 exports.create_client = function (req, res) {
-  //console.log('create_client req.body: ', req.body);
+  console.log('create_client req.body: ', req.body);
   //const clientId =
   Client.addClient(req.body, function (err, client) {
     if (err) {
       console.log('addClient controller error: ', err);
     } else {
       //console.log('addClient controller: ', client);
-      res.send('success');
+      res.send(client);
+    }
+  });
+};
+
+// Check if name is unique
+exports.check_name = function (req, res) {
+  console.log('check_name req.body: ', req.body);
+
+  Client.checkName(req.body.name, function (err, client) {
+    if (err) {
+      console.log('check_name error: ', err);
+    } else {
+      res.send(client);
     }
   });
 };
@@ -97,6 +110,20 @@ exports.create_outcomes_table = function (req, res) {
       console.log('create_outcomes_table err: ', err);
     } else {
       res.send(table);
+    }
+  });
+};
+
+// Config
+exports.create_config = function (req, res) {
+  console.log('create_config req.body: ', req.body);
+  const f_clientId = req.body.f_clientId;
+
+  Client.createConfig(f_clientId, req.body, function (err, config) {
+    if (err) {
+      console.log('create_config err: ', err);
+    } else {
+      res.send(config);
     }
   });
 };

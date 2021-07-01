@@ -20,25 +20,41 @@ Client.getAllClients = function (result) {
 };
 
 // Create
-Client.addClient = async function (client, result) {
-  console.log('starting createUser: ', client);
-
-  const name = client.name;
-  const tablePrefix = name.substring(0, 10);
-  client.tablePrefix = tablePrefix;
-
-  let checkResponse = await checkName(name);
-  if (checkResponse) {
-    let insertResponse = await insertClient(client);
-    console.log('insertResponse', insertResponse);
-    if (insertResponse > 0) {
-      console.log('about to create');
-      let createResponse = await createTables(tablePrefix);
-      if (createResponse) {
-        let sendResponse = await sendWelcomeEmail(client, result);
+Client.checkName = function (name, result) {
+  console.log('running checkName: ', name);
+  sql.query(
+    `SELECT name FROM cws_admin.clients WHERE name = ?;`,
+    name,
+    function (err, res) {
+      if (err) {
+        console.log('checkName error: ', err);
+        result(null, err);
+      } else {
+        if (res.length === 0) {
+          result(null, 'Unique');
+        } else {
+          result(null, 'Duplicate');
+        }
       }
     }
-  }
+  );
+};
+
+Client.addClient = async function (client, result) {
+  console.log('starting addClient: ', client);
+
+  sql.query(`INSERT INTO cws_admin.clients SET ?;`, client, function (
+    err,
+    res
+  ) {
+    if (err) {
+      console.log('addClient error: ', err);
+      result(null, err);
+    } else {
+      //console.log('addClient res: ', res);
+      result(null, res);
+    }
+  });
 };
 
 Client.createAccountsTable = function (tablePrefix, result) {
@@ -284,44 +300,17 @@ Client.createOutcomesTable = function (tablePrefix, result) {
   );
 };
 
-const checkName = (name) => {
-  console.log('running checkName: ', name);
-  sql.query(
-    `SELECT email FROM cws_admin.clients WHERE name = ?;`,
-    name,
-    function (err, res) {
-      if (err) {
-        console.log('addClient checkName error: ', err);
-        result(null, err);
-        console.log('problem with checkName: ', err);
-        return false;
-      } else {
-        console.log('finished checkName: ', name);
-      }
-    }
-  );
-  return true;
-};
+Client.createConfig = function (f_clientId, config, result) {
+  console.log('createConfig: ', f_clientId, config);
 
-const insertClient = (client) => {
-  console.log('running insertClient');
-  let id = 0;
-
-  sql.query(`INSERT INTO cws_admin.clients SET ?;`, client, function (
-    err,
-    res
-  ) {
+  sql.query(`INSERT INTO cws_admin.config SET ?;`, config, function (err, res) {
     if (err) {
-      console.log('addClient insertClient error: ', err);
-      result(null, err);
-      console.log('problem with insertClient: ', err);
-      return 0;
+      console.log('createConfig: ', err);
     } else {
-      console.log('addClient insertClient res: ', res.insertId);
-      id = res.insertId;
+      //console.log('createConfig res: ', res);
+      result(null, res);
     }
   });
-  return id;
 };
 
 const createTables = (tablePrefix) => {
