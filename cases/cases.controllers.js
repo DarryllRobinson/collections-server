@@ -14,6 +14,19 @@ exports.update_status = function (req, res) {
   });
 };
 
+exports.update_case = function (req, res) {
+  const caseObject = req.body;
+  const { caseId } = req.params;
+
+  CasesModel.updateCase(caseObject, caseId, function (err, cases) {
+    if (err) {
+      console.log('CasesModel.updateCase controller error: ', err);
+    } else {
+      res.send(cases);
+    }
+  });
+};
+
 // Insert new Cases records
 exports.insert_cases = function (req, res) {
   const casesBody = req.body;

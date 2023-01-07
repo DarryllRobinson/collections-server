@@ -19,6 +19,7 @@ exports.list_all_outcomes_per_case = function (req, res) {
 // Insert new Outcomes record
 exports.insert_outcome = function (req, res) {
   const outcomeBody = req.body;
+  //console.log('inserting new outcome record: ', outcomeBody);
 
   OutcomesModel.insertNewOutcome(outcomeBody, function (err, outcome) {
     if (err) {
@@ -29,10 +30,10 @@ exports.insert_outcome = function (req, res) {
   });
 };
 
-// Insert new Outcomes record
+// Insert new Outcomes records
 exports.insert_outcomes = function (req, res) {
   const outcomesBody = req.body;
-  //console.log('outcomesBody: ', outcomesBody);
+  //console.log('inserting multiple outcome records: ', outcomesBody);
 
   OutcomesModel.insertNewOutcomes(outcomesBody, function (err, outcomes) {
     if (err) {

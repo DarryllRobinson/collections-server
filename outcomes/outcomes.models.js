@@ -23,7 +23,10 @@ Outcomes.getAllOutcomesForCase = function (caseId, result) {
 };
 
 Outcomes.insertNewOutcome = function (outcomeBody, result) {
-  sql.query(`INSERT INTO outcomes SET ?;`, outcomeBody, function (err, res) {
+  sql.query(`INSERT INTO cws_business.outcomes SET ?;`, outcomeBody, function (
+    err,
+    res
+  ) {
     if (err) {
       console.log('insertNewOutcome error: ', err);
     } else {
@@ -49,11 +52,13 @@ Outcomes.insertNewOutcomes = async function (outcomesBody, result) {
     });
   } catch (e) {
     console.log('insertNewOutcomes problem (e): ', e);
-    return res.json({
+    e.status = 'bulkInsert error';
+    result(null, e);
+    /*return res.json({
       error_code: 1,
       err_desc: err,
       data: null,
-    });
+    });*/
   }
 };
 

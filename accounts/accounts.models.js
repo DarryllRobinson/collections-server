@@ -5,7 +5,26 @@ const Accounts = function (accounts) {
   this.createdDate = new Date();
 };
 
-Accounts.updateAccount = async function (accountNumber, account, result) {
+Accounts.updateAccount = function (accountNumber, account, result) {
+  console.log('updateAccount: ', accountNumber, account);
+
+  sql.query(
+    `UPDATE cws_business.accounts
+    SET ?
+    WHERE accountNumber = ?`,
+    [account, accountNumber],
+    function (err, res) {
+      if (err) {
+        console.error('Accounts.updateAccount error: ', err);
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
+Accounts.oldupdateAccount = async function (accountNumber, account, result) {
   console.log('updateAccount: ', accountNumber, account);
   let arr = [];
   arr.push(account);
@@ -37,10 +56,7 @@ async function bulkUpdate(table, objectArray, id, callback) {
   let identifier = '';
   switch (table) {
     case 'accounts':
-      identifier = 'customerRefNo';
-      break;
-    case 'accounts':
-      identifier = 'accountNumber';
+      identifier = 'f_customerId';
       break;
     case 'contacts':
       identifier = 'f_accountNumber';

@@ -22,6 +22,7 @@ module.exports = function (app) {
 
   // Cases
   app.route('/api/cases/case/:caseId').put(cases.update_status);
+  app.route('/api/cases/case/:caseId').post(cases.update_case);
   app.route('/api/cases/case').post(cases.insert_cases);
 
   // Clients

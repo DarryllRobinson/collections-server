@@ -40,7 +40,7 @@ async function bulkUpdate(table, objectArray, id, callback) {
       identifier = 'customerRefNo';
       break;
     case 'accounts':
-      identifier = 'accountNumber';
+      identifier = 'f_customerId';
       break;
     case 'cases':
       identifier = 'f_accountNumber';
@@ -61,6 +61,25 @@ async function bulkUpdate(table, objectArray, id, callback) {
     callback(null, results);
   });
 }
+
+Cases.updateCase = function (caseObject, caseId, result) {
+  console.log('updateCase: ', caseObject, caseId);
+
+  sql.query(
+    `UPDATE cws_business.cases
+    SET ?
+    WHERE caseId = ?`,
+    [caseObject, caseId],
+    function (err, res) {
+      if (err) {
+        console.error('updateCase.updateAccount error: ', err);
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
 
 Cases.insertNewCases = async function (casesBody, result) {
   try {
